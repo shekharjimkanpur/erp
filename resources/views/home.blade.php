@@ -24,7 +24,7 @@ $(document).ready( function () {
                     @endif
                     <div class='row'>
                     <div class='col-lg-2'>
-                    <button type="button" id='add_test' class='btn btn-md btn-primary'>Add New Test</button>
+                    <a type="button" id='add_test' href='/addtest' class='btn btn-md btn-primary'>Add New Test</a>
                     </div>
                     <div class='col-lg-2'>
                     <button type="button" class='btn btn-md btn-primary'>Add New User</button>
