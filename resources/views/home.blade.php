@@ -2,7 +2,11 @@
 
 @section('content')
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
-  
+  <style>
+  body{
+      background-color:#F1F1F1 !important;
+  }
+  </style>
   <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
 <script>
 $(document).ready( function () {
@@ -23,20 +27,20 @@ $(document).ready( function () {
                         </div>
                     @endif
                     <div class='row'>
-                    <div class='col-lg-2'>
+                    <div class='col-lg-2 col-md-3'>
                     <a type="button" id='add_test' href='{{route("addtest")}}' class='btn btn-md btn-primary'>Add New Test</a>
                     </div>
-                    <div class='col-lg-2'>
+                    <div class='col-lg-2 col-md-3'>
                     <button type="button" class='btn btn-md btn-primary'>Add New User</button>
                     </div>
-                    <div class='col-lg-6'>
+                    <div class='col-lg-8 col-md-6'>
                     <button type="button" class='btn btn-md btn-primary'>Add New Client</button>
                     </div>
                     </div> 
                     <br>
                     <br>
                     
-                    <h2>Testing List</h2>
+                    <h4>Testing List</h4>
                     <hr>
 <div class='row'>
 <div class='col-lg-12'>
