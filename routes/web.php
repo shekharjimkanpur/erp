@@ -22,3 +22,5 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::get('/addtest', 'add_test@index')->name('addtest');
+
