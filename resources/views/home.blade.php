@@ -60,14 +60,14 @@ $(document).ready( function () {
     </thead>
     <tbody>
         <tr>
-            <td>Row 1 Data 1</td>
-            <td>Row 1 Data 2</td>
+            <td>SHN/HSN-SAC-401</td>
+            <td>Leather Shoe</td>
             
-            <td>Row 1 Data 3</td>
+            <td> Red chief</td>
             
-            <td>Row 1 Data 4</td>
+            <td>04-April-2021</td>
             
-            <td>Row 1 Data 5</td>
+            <td>Pending</td>
             
             <td>  
             <button type="button" id='edit_test' class='btn btn-sm btn-primary'>Edit</button>
@@ -76,15 +76,14 @@ $(document).ready( function () {
                      </td>
         </tr>
         <tr>
-            <td>Row 2 Data 1</td>
-            <td>Row 2 Data 2</td>
+        <td>SHN/HSN-SAC-402</td>
+            <td>Leather Shoe</td>
             
-            <td>Row 2 Data 3</td>
+            <td> Red chief</td>
             
-            <td>Row 2 Data 4</td>
+            <td>04-April-2021</td>
             
-            <td>Row 2 Data 5</td>
-            
+            <td>Pending</td>
             <td>
             
             <button type="button" class='btn btn-sm btn-primary'>Edit</button>

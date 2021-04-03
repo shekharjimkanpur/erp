@@ -16,10 +16,10 @@
       <div class="form-group col-md-10">
         <select class="form-control  id=" inputClientName">
           <option value="">Select Client</option>
-          <option>abc</option>
-          <option>def</option>
-          <option>ghi</option>
-          <option>jkl</option>
+          <option>Red Chief</option>
+          <option>Puma</option>
+          <option>Adidas</option>
+          <option>Versace</option>
         </select>
       </div>
 
@@ -35,10 +35,10 @@
       <div class="form-group col-md-10">
         <select class="form-control selectpicker" id=" inputdepttName" multiple>
           <option value="">Select Departments</option>
-          <option>abc</option>
-          <option>def</option>
-          <option>ghi</option>
-          <option>jkl</option>
+          <option>Testing Dept 1</option>
+          <option>Testing Dept 2</option>
+          <option>Testing Dept 3</option>
+          <option>Testing Dept 4</option>
         </select>
       </div>
 
