@@ -1,11 +1,20 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
+  
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+<script>
+$(document).ready( function () {
+    $.noConflict();
+    $('#table_id').DataTable();
+} );
+</script>
+<div class="container-fluid">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-10">
             <div class="card">
-                <div class="card-header">Dashboard</div>
+                <!-- <div class="card-header">Testing List</div> -->
 
                 <div class="card-body">
                     @if (session('status'))
@@ -13,7 +22,78 @@
                             {{ session('status') }}
                         </div>
                     @endif
-<form  action="/public/generate-pdf">
+                    <div class='row'>
+                    <div class='col-lg-2'>
+                    <button type="button" id='add_test' class='btn btn-md btn-primary'>Add New Test</button>
+                    </div>
+                    <div class='col-lg-2'>
+                    <button type="button" class='btn btn-md btn-primary'>Add New User</button>
+                    </div>
+                    <div class='col-lg-6'>
+                    <button type="button" class='btn btn-md btn-primary'>Add New Client</button>
+                    </div>
+                    </div> 
+                    <br>
+                    <br>
+                    
+                    <h2>Testing List</h2>
+                    <hr>
+<div class='row'>
+<div class='col-lg-12'>
+                    <table id="table_id" class="display">
+    <thead>
+        <tr>
+            
+            <th>Test Id</th>
+            <th>Test name</th>
+            <th>Client Name</th>
+            
+            <th>Created on</th>
+            <th>Testing status</th>
+            <th>actions</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Row 1 Data 1</td>
+            <td>Row 1 Data 2</td>
+            
+            <td>Row 1 Data 3</td>
+            
+            <td>Row 1 Data 4</td>
+            
+            <td>Row 1 Data 5</td>
+            
+            <td>  
+            <button type="button" id='edit_test' class='btn btn-sm btn-primary'>Edit</button>
+            <!-- <button type="button" class='btn btn-sm btn-primary'>add</button> -->
+            <button type="button" id='delete_test' class='btn btn-sm btn-danger'>Delete</button>
+                     </td>
+        </tr>
+        <tr>
+            <td>Row 2 Data 1</td>
+            <td>Row 2 Data 2</td>
+            
+            <td>Row 2 Data 3</td>
+            
+            <td>Row 2 Data 4</td>
+            
+            <td>Row 2 Data 5</td>
+            
+            <td>
+            
+            <button type="button" class='btn btn-sm btn-primary'>Edit</button>
+            <!-- <button type="button" class='btn btn-sm btn-primary'>add</button> -->
+            <button type="button" class='btn btn-sm btn-danger'>Delete</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+</div>
+</div>
+<!-- <form  action="/public/generate-pdf">
 <p>&nbsp;</p>
 <h5 class="text-center">Enter Details here.</h5>
 <section class="container">
@@ -38,9 +118,10 @@
 </tfoot>
 </table>
 </div>
-</form>
+</form> -->
+
 </section>
-                    You are logged in!
+                    <!-- You are logged in! -->
                 </div>
             </div>
         </div>
@@ -61,6 +142,8 @@ $(function () {
 function GetDynamicTextBox(value) {
     return '<td><input name = "DynamicTextBox1[]" type="text" value = "' + value + '" class="form-control" /></td>' + '<td><input name = "DynamicTextBox2[]" type="text" value = "' + value + '" class="form-control" /></td>'+'<td><input name = "DynamicTextBox3[]" type="text" value = "' + value + '" class="form-control" /></td>';
 }
-    
+
+
 </script>  
+
 @endsection
