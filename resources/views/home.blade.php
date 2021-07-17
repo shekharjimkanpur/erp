@@ -218,7 +218,7 @@ $(document).ready( function () {
         
       </div>
     </div>
-  </div>s
+  </div>
 <script>
     
 $(function () {

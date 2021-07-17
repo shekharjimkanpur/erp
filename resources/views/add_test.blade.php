@@ -51,44 +51,7 @@
 
   
 
-  <div class="modal fade" id="deptModal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Add New Department</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <form>
-
-          <div class="form-group">
-            <label >Department Name</label>
-              <input type="text" class="form-control" id="inputModalDeptName"  placeholder="Enter Client Name">
-            </div>
-
-            <div class="form-group">
-              <label >Department Email</label>
-              <input type="email" class="form-control" id="inputModalDeptEmail"  placeholder="Enter Email">
-              
-            </div>
-            <div class="form-group">
-            <label>Password</label>
-              <input type="text" class="form-control" id="inputModalDeptPassword"  placeholder="Enter Password">
-            </div>
-
-            
-            
-            <button type="submit" class="btn btn-primary">Submit</button>
-          </form>
-
-
-        </div>
-        
-      </div>
-    </div>
-  </div>
+  
 
 
 
