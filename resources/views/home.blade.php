@@ -28,13 +28,15 @@ $(document).ready( function () {
                     @endif
                     <div class='row'>
                     <div class='col-lg-2 col-md-3'>
-                    <a type="button" id='add_test' href='{{route("addtest")}}' class='btn btn-md btn-primary'>Add New Test</a>
+                    <button type="button" class='btn btn-md btn-primary' data-toggle="modal" data-target="#clientModal">Add New Client</button>
+
                     </div>
                     <div class='col-lg-2 col-md-3'>
-                    <button type="button" class='btn btn-md btn-primary'>Add New User</button>
+                    <button type="button" class='btn btn-md btn-primary' data-toggle="modal" data-target="#deptModal">Add New Dept.</button>
                     </div>
                     <div class='col-lg-8 col-md-6'>
-                    <button type="button" class='btn btn-md btn-primary'>Add New Client</button>
+                    <a type="button" id='add_test' href='{{route("addtest")}}' class='btn btn-md btn-primary'>Add New Test</a>
+
                     </div>
                     </div> 
                     <br>
@@ -130,6 +132,93 @@ $(document).ready( function () {
         </div>
     </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="clientModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add New Client</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+
+          <div class="form-group">
+            <label >Name</label>
+              <input type="text" class="form-control" id="inputModalClientName"  placeholder="Enter Client Name">
+            </div>
+
+            <div class="form-group">
+              <label >Phone</label>
+              <input type="number" class="form-control" id="inputModalClientPhone"  placeholder="Enter Phone">            
+            </div>
+
+            <div class="form-group">
+            <label >GST NO.</label>
+              <input type="text" class="form-control" id="inputModalClientGst"  placeholder="Enter Client GST No">
+            </div>
+
+            <div class="form-group">
+              <label >Email</label>
+              <input type="email" class="form-control" id="inputModalClientEmail"  placeholder="Enter Email">            
+            </div>
+
+            <div class="form-group">
+            <label >Address</label>
+              <input type="text" class="form-control" id="inputModalClientAddress"  placeholder="Enter Address">
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+
+
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="deptModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add New Department</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+
+          <div class="form-group">
+            <label >Department Name</label>
+              <input type="text" class="form-control" id="inputModalDeptName"  placeholder="Enter Client Name">
+            </div>
+
+            <div class="form-group">
+              <label >Department Email</label>
+              <input type="email" class="form-control" id="inputModalDeptEmail"  placeholder="Enter Email">
+              
+            </div>
+            <div class="form-group">
+            <label>Password</label>
+              <input type="text" class="form-control" id="inputModalDeptPassword"  placeholder="Enter Password">
+            </div>
+
+            
+            
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+
+
+        </div>
+        
+      </div>
+    </div>
+  </div>s
 <script>
     
 $(function () {
