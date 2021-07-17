@@ -171,7 +171,7 @@ $(document).ready( function () {
               <input type="text" class="form-control" id="inputModalClientAddress"  placeholder="Enter Address">
             </div>
             
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button id="btn-client-submit" type="button" class="btn btn-primary">Submit</button>
           </form>
 
 
@@ -195,7 +195,7 @@ $(document).ready( function () {
 
           <div class="form-group">
             <label >Department Name</label>
-              <input type="text" class="form-control" id="inputModalDeptName"  placeholder="Enter Client Name">
+              <input type="text" class="form-control" id="inputModalDeptName"  placeholder="Enter Dept. Name">
             </div>
 
             <div class="form-group">
@@ -205,12 +205,12 @@ $(document).ready( function () {
             </div>
             <div class="form-group">
             <label>Password</label>
-              <input type="text" class="form-control" id="inputModalDeptPassword"  placeholder="Enter Password">
+              <input type="password" class="form-control" id="inputModalDeptPassword"  placeholder="Enter Password">
             </div>
 
             
             
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="button" id="btn-dept-submit" class="btn btn-primary">Submit</button>
           </form>
 
 
@@ -237,5 +237,99 @@ function GetDynamicTextBox(value) {
 
 
 </script>  
+<script>
+  $("#inputModalClientName").change(function(){$(this).removeClass('is-invalid')});
+  $("#inputModalClientPhone").change(function(){$(this).removeClass('is-invalid')});
+  $("#inputModalClientGst").change(function(){$(this).removeClass('is-invalid')});
+  $("#inputModalClientEmail").change(function(){$(this).removeClass('is-invalid')});
+  $("#inputModalClientAddress").change(function(){$(this).removeClass('is-invalid')});
+  $('#btn-client-submit').click(function(){
+    var i=0;
+      if($('#inputModalClientName').val()=="")
+      {
+        $('#inputModalClientName').addClass('is-invalid');
+        i=1;
+      }
+      if($('#inputModalClientPhone').val()=="")
+      {
+        $('#inputModalClientPhone').addClass('is-invalid');
+        i=1;
+      }
+      if($('#inputModalClientGst').val()=="")
+      {
+        $('#inputModalClientGst').addClass('is-invalid');
+        i=1;
+      }
+      if($('#inputModalClientEmail').val()=="")
+      {
+       
+        $('#inputModalClientEmail').addClass('is-invalid');
+        i=1;
+      }
+      else{
+        var testEmail = /^[A-Z0-9._%+-]+@([A-Z0-9-]+\.)+[A-Z]{2,4}$/i;
+          if (!testEmail.test($('#inputModalClientEmail').val()))
+          {
+            $('#inputModalClientEmail').addClass('is-invalid');
+          i=1;
+          }
 
+      }
+       if($('#inputModalClientAddress').val()=="")
+      {
+        $('#inputModalClientAddress').addClass('is-invalid');
+        i=1;
+      }
+      if(i==0)
+      {
+        $('.loader').modal('show');
+            var saveData = $.ajax({
+              type: 'POST',
+              url: "home/addclient",
+              data: {"_token": "{{ csrf_token() }}",name:$('#inputModalClientName').val(),phone:$('#inputModalClientPhone').val(),gst:$('#inputModalClientGst').val(),email:$('#inputModalClientEmail').val(),address:$('#inputModalClientAddress').val()},
+              success: function(resultData) { alert(resultData);windows.reload(); }
+        });
+        saveData.error(function() { alert("Something went wrong"); });
+        $('.loader').modal('hide');
+      }
+  });
+  </script>
+
+  <script>
+    $("#inputModalDeptName").change(function(){$(this).removeClass('is-invalid')});
+  $("#inputModalDeptEmail").change(function(){$(this).removeClass('is-invalid')});
+  $("#inputModalDeptPassword").change(function(){$(this).removeClass('is-invalid')});
+  $('#btn-dept-submit').click(function(){
+    var i=0;
+      if($('#inputModalDeptName').val()=="")
+      {
+        $('#inputModalDeptName').addClass('is-invalid');
+        i=1;
+      }
+      if($('#inputModalDeptEmail').val()=="")
+      {
+        $('#inputModalDeptEmail').addClass('is-invalid');
+        i=1;
+      }
+      if($('#inputModalDeptPassword').val()=="")
+      {
+        $('#inputModalDeptPassword').addClass('is-invalid');
+        i=1;
+      }
+      
+      
+      if(i==0)
+      {
+        $('.loader').modal('show');
+            var saveData = $.ajax({
+              type: 'POST',
+              url: "home/adddept",
+              data: {"_token": "{{ csrf_token() }}",name:$('#inputModalDeptName').val(),email:$('#inputModalDeptEmail').val(),sec:$('#inputModalDeptPassword').val()},
+              success: function(resultData) { alert(resultData); windows.reload(); }
+        });
+        saveData.error(function() { alert("Something went wrong"); });
+        $('.loader').modal('hide');
+      }
+  });
+    </script>
 @endsection

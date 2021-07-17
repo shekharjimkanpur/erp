@@ -21,6 +21,8 @@ Route::get('/generate-pdf','PDFController@generatePDF');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::post('/home/addclient', 'HomeController@addClient');
+Route::post('/home/adddept', 'HomeController@addDept');
 
 Route::get('/addtest', 'add_test@index')->name('addtest');
 
