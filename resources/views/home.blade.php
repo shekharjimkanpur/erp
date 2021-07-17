@@ -282,12 +282,13 @@ function GetDynamicTextBox(value) {
       }
       if(i==0)
       {
+        $('.modal').modal('hide');
         $('.loader').modal('show');
             var saveData = $.ajax({
               type: 'POST',
               url: "home/addclient",
               data: {"_token": "{{ csrf_token() }}",name:$('#inputModalClientName').val(),phone:$('#inputModalClientPhone').val(),gst:$('#inputModalClientGst').val(),email:$('#inputModalClientEmail').val(),address:$('#inputModalClientAddress').val()},
-              success: function(resultData) { alert(resultData);windows.reload(); }
+              success: function(resultData) { alert(resultData);location.reload(); }
         });
         saveData.error(function() { alert("Something went wrong"); });
         $('.loader').modal('hide');
@@ -320,12 +321,13 @@ function GetDynamicTextBox(value) {
       
       if(i==0)
       {
+        $('.modal').modal('hide');
         $('.loader').modal('show');
             var saveData = $.ajax({
               type: 'POST',
               url: "home/adddept",
               data: {"_token": "{{ csrf_token() }}",name:$('#inputModalDeptName').val(),email:$('#inputModalDeptEmail').val(),sec:$('#inputModalDeptPassword').val()},
-              success: function(resultData) { alert(resultData); windows.reload(); }
+              success: function(resultData) { alert(resultData); location.reload(); }
         });
         saveData.error(function() { alert("Something went wrong"); });
         $('.loader').modal('hide');
