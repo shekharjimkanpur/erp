@@ -23,9 +23,7 @@
         </select>
       </div>
 
-      <div class="form-group col-md-2">
-        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#clientModal">Add New Client</button>
-      </div>
+      
     </div>
 
 
@@ -51,48 +49,7 @@
   </form>
 
 
-  <!-- Modal -->
-  <div class="modal fade" id="clientModal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Add New Client</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <form>
-
-          <div class="form-group">
-            <label >Client Name</label>
-              <input type="text" class="form-control" id="inputModalClientName"  placeholder="Enter Client Name">
-            </div>
-
-            <div class="form-group">
-            <label >Client GST NO.</label>
-              <input type="text" class="form-control" id="inputModalClientGst"  placeholder="Enter Client GST No">
-            </div>
-
-            <div class="form-group">
-              <label >Client Email</label>
-              <input type="email" class="form-control" id="inputModalClientEmail"  placeholder="Enter Email">
-              
-            </div>
-            <div class="form-group">
-            <label >Client Address</label>
-              <input type="text" class="form-control" id="inputModalClientAddress"  placeholder="Enter Address">
-            </div>
-            
-            <button type="submit" class="btn btn-primary">Submit</button>
-          </form>
-
-
-        </div>
-        
-      </div>
-    </div>
-  </div>
+  
 
   <div class="modal fade" id="deptModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog" role="document">
