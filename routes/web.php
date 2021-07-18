@@ -25,4 +25,5 @@ Route::post('/home/addclient', 'HomeController@addClient');
 Route::post('/home/adddept', 'HomeController@addDept');
 
 Route::get('/addtest', 'add_test@index')->name('addtest');
+Route::post('/submit_test','add_test@add_newtest');
 
