@@ -25,7 +25,13 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $testing_data=$this->test_method_data();
+        return view('home',['testing_data'=>$testing_data]);
+    }
+
+    public function test_method_data(){
+        $method=DB::SELECT('SELECT a.*,b.name FROM `erp_test_product` a inner join erp_client b on a.client_id=b.id');
+        return $method;
     }
 
     public function addClient(Request $request)

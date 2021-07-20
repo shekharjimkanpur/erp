@@ -61,15 +61,16 @@ $(document).ready( function () {
         </tr>
     </thead>
     <tbody>
+    @foreach ($testing_data as  $tests)
         <tr>
-            <td>SHN/HSN-SAC-401</td>
-            <td>Leather Shoe</td>
+            <td>SHN/HSN-SAC-{{$tests->id}}</td>
+            <td>{{$tests->product_name}}</td>
             
-            <td> Red chief</td>
+            <td>{{ $tests->name }}</td>
             
-            <td>04-April-2021</td>
+            <td>{{$tests->booking_date}}</td>
             
-            <td>Pending</td>
+            <td>{{$tests->status }}</td>
             
             <td>  
             <button type="button" id='edit_test' class='btn btn-sm btn-primary'>Edit</button>
@@ -77,56 +78,15 @@ $(document).ready( function () {
             <button type="button" id='delete_test' class='btn btn-sm btn-danger'>Delete</button>
                      </td>
         </tr>
-        <tr>
-        <td>SHN/HSN-SAC-402</td>
-            <td>Leather Shoe</td>
-            
-            <td> Red chief</td>
-            
-            <td>04-April-2021</td>
-            
-            <td>Pending</td>
-            <td>
-            
-            <button type="button" class='btn btn-sm btn-primary'>Edit</button>
-            <!-- <button type="button" class='btn btn-sm btn-primary'>add</button> -->
-            <button type="button" class='btn btn-sm btn-danger'>Delete</button>
-            </td>
-        </tr>
-    </tbody>
+        @endforeach
+      </tbody>
 </table>
 
 </div>
 </div>
-<!-- <form  action="/public/generate-pdf">
-<p>&nbsp;</p>
-<h5 class="text-center">Enter Details here.</h5>
-<section class="container">
-<div class="table table-responsive">
-<table class="table table-responsive table-striped table-bordered">
-<thead>
-	<tr>
-    	<td>Test Parameter</td>
-    	<td>Observed value</td>
-    	<td>Test method</td>
-    </tr>
-</thead>
-<tbody id="TextBoxContainer">
-</tbody>
-<tfoot>
-  <tr>
-    <th colspan="5">
-    <button id="btnAdd" type="button" class="btn btn-primary" data-toggle="tooltip" data-original-title="Add more controls"><i class="glyphicon glyphicon-plus-sign"></i>&nbsp; Add&nbsp;</button>
-     <button id="btnsub" type="submit" class="btn btn-primary"><i class="glyphicon glyphicon-plus-sign"></i>&nbsp; Submit&nbsp;</button>
-    </th>
-  </tr>
-</tfoot>
-</table>
-</div>
-</form> -->
+
 
 </section>
-                    <!-- You are logged in! -->
                 </div>
             </div>
         </div>

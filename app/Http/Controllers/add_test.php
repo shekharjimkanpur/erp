@@ -44,7 +44,7 @@ class add_test extends Controller
 
     public function add_newtest(Request $request)
     {
-        return '';
+       
         $request->validate([ 'letter_img' => 'required|image|mimes:jpeg,png,jpg,pdf',
                             'product_image' => 'required|image|mimes:jpeg,png,jpg,pdf',
                             'product_name'=>'required',
