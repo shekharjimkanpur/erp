@@ -116,6 +116,16 @@ ob_start();
     </div>
 </body>
 </html>
+<script>
+    $(document).ready(function() {
+  $(window).keydown(function(event){
+    if(event.keyCode == 13) {
+      event.preventDefault();
+      return false;
+    }
+  });
+});
+    </script>
 <?php
 ob_flush();
 ?>

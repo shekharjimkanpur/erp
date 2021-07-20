@@ -204,14 +204,17 @@ function ChangeDept()
 {
   a=$("#inputdepttName").val();
       dropotp='';
-      a.forEach(function(b){
-        
-        c=b.split(',');
-        var abc=generate_test_method(c[0]);
+      if(a!=null)
+      {
+          a.forEach(function(b){
+            
+            c=b.split(',');
+            var abc=generate_test_method(c[0]);
 
-      dropotp+="<div class='row' style='padding-bottom:10px;'><div class='col-md-2'>"+c[1]+":</div><div class='col-md-3'><select class='form-control test_method_select' name='test_method_select[]' onchange='change_func(this);'  ><option value=''>Select Test Method</option>"+abc+"</select></div></div>";
+          dropotp+="<div class='row' style='padding-bottom:10px;'><div class='col-md-2'>"+c[1]+":</div><div class='col-md-3'><select class='form-control test_method_select' name='test_method_select[]' onchange='change_func(this);'  ><option value=''>Select Test Method</option>"+abc+"</select></div></div>";
 
-      });
+          });
+      }
       $('#test_method').html(dropotp);
 }
 
@@ -228,7 +231,7 @@ $("#product_name").change(function(){$(this).removeClass('is-invalid')});
   $("#total_amt").change(function(){$(this).removeClass('is-invalid')});
 
   $("#inputClientName").change(function(){$(this).removeClass('is-invalid')});
-  $("#inputdepttName").change(function(){$(this).removeClass('is-invalid')}); 
+  $("#inputdepttName").change(function(){$(this).parent().removeClass('is-invalid')}); 
   
    function change_func(data)
 {
@@ -272,7 +275,7 @@ $('form').submit(function(event) {
     if($('#letter_ref_no').val()==""){ $('#letter_ref_no').addClass('is-invalid'); i=1; }
     if($('#total_amt').val()==""){ $('#total_amt').addClass('is-invalid'); i=1; }
     if($('#inputClientName').val()==""){ $('#inputClientName').addClass('is-invalid'); i=1; }
-    if($('#inputdepttName').val()==""){ $('#inputdepttName').addClass('is-invalid'); i=1; }
+    if($('#inputdepttName').val()==null){ $('#inputdepttName').parent().addClass('is-invalid'); i=1; }
     $("[name^=test_method_select]").each(function (i, j) {
                   if($(this).val()=="")
                   {

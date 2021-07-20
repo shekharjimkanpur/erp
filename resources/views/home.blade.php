@@ -70,7 +70,7 @@ $(document).ready( function () {
             
             <td>{{$tests->booking_date}}</td>
             
-            <td>{{$tests->status }}</td>
+            <td>@if($tests->total_dept==$tests->total_done) Completed @else Pending @endif</td>
             
             <td>  
             <button type="button" id='edit_test' class='btn btn-sm btn-primary'>Edit</button>

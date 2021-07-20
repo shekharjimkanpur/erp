@@ -30,9 +30,12 @@ class HomeController extends Controller
     }
 
     public function test_method_data(){
-        $method=DB::SELECT('SELECT a.*,b.name FROM `erp_test_product` a inner join erp_client b on a.client_id=b.id');
+        $method=DB::SELECT('SELECT a.*,b.name,count(c.dept_id) as total_dept,sum(c.is_done) as total_done FROM `erp_test_product` a inner join erp_client b on a.client_id=b.id left join test_dept_util c on a.id=c.test_id group by a.id');
         return $method;
     }
+    
+    //SELECT a.*,b.name,count(c.dept_id) as total_dept,sum(c.is_done) as total_done FROM `erp_test_product` a inner join erp_client b on a.client_id=b.id left join test_dept_util c on a.id=c.test_id group by a.id
+
 
     public function addClient(Request $request)
     {
