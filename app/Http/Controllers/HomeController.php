@@ -77,4 +77,27 @@ class HomeController extends Controller
         else
             return "Error! Please try again.";
     }
+
+    public function addtestMethods(Request $request)
+    {
+       
+
+        $name =  $request->input('name');
+
+        if($name!="")
+        {
+            $results = DB::insert( DB::raw("insert into erp_test_method(test_method) values(:name)"), array(
+                'name' => $name,
+            ));
+            if($request)
+                { 
+                $id = DB::getPdo()->lastInsertId();     
+                return "<option value='replaceit,".$id."'>".$name."</option>";
+                }
+            else
+                return "Error";
+        }
+        else
+            return "Error";
+    }
 }

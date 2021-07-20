@@ -2,7 +2,7 @@
 
 @section('content')
 <style>
-  #app > main > div > form > div:nth-child(7) > div:nth-child(1) > div > div > div > button{
+  .bootstrap-select>.dropdown-toggle{
     border:1px solid #ced4da;
     background:white;
   }
@@ -123,7 +123,7 @@
 </div>
 
 <div class='row'>
-      <div class='col-md-12'>
+      <div class='col-md-9'>
     <label>Select Departments:</label>
     <div class="form-row">
       <div class="form-group col-md-12">
@@ -140,6 +140,12 @@
       </div>
       </div>
       </div>
+      <div class='col-md-3'>
+      <div class="form-group">
+            <br/>
+          <button type="button" class='btn btn-md btn-success' id="open_testmethod_modal" data-toggle="modal" data-target="#testMethodModal">Add New Test Method</button>
+      </div>
+      </div>
 <div id='test_method' class='col-md-12'>
 
 </div>
@@ -148,12 +154,41 @@
   </form>
 </div>
 
+<div class="modal fade" id="testMethodModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add New Test Methods</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+
+          <div class="form-group">
+            <label >Test Method Name</label>
+              <input type="text" class="form-control" id="inputModalTestMethodsName"  placeholder="Enter New Test Method">
+            </div>
+
+            <button type="button" id="btn-testMethods-submit" class="btn btn-primary">Submit</button>
+          </form>
+
+
+        </div>
+        
+      </div>
+    </div>
+  </div>
 <script>
+
+  var NewlyAddedMethods="";
   function generate_test_method(id)
   {
    
-    var method="@foreach ($method as  $m)  <option value='achcha_word,{{$m->id}}'> {{$m->test_method}} </option> @endforeach";
-    return method.replaceAll('achcha_word',id); 
+    var method="@foreach ($method as  $m)  <option value='replaceit,{{$m->id}}'> {{$m->test_method}} </option> @endforeach";
+    var method=method+NewlyAddedMethods;
+    return method.replaceAll('replaceit',id); 
   }
 
   $( document ).ready(function() {
@@ -162,20 +197,23 @@
   });
 
 $('#inputdepttName').change(function(){
-// console.log($("#inputdepttName").val());
-a=$("#inputdepttName").val();
-dropotp='';
-a.forEach(function(b){
-  
-  c=b.split(',');
-  var abc=generate_test_method(c[0]);
-
-dropotp+="<div class='row' style='padding-bottom:10px;'><div class='col-md-2'>"+c[1]+":</div><div class='col-md-3'><select class='form-control test_method_select' name='test_method_select[]' onchange='change_func(this);'  ><option value=''>Select Test Method</option>"+abc+"</select></div></div>";
-
+     ChangeDept();
 });
-$('#test_method').html(dropotp);
 
-});
+function ChangeDept()
+{
+  a=$("#inputdepttName").val();
+      dropotp='';
+      a.forEach(function(b){
+        
+        c=b.split(',');
+        var abc=generate_test_method(c[0]);
+
+      dropotp+="<div class='row' style='padding-bottom:10px;'><div class='col-md-2'>"+c[1]+":</div><div class='col-md-3'><select class='form-control test_method_select' name='test_method_select[]' onchange='change_func(this);'  ><option value=''>Select Test Method</option>"+abc+"</select></div></div>";
+
+      });
+      $('#test_method').html(dropotp);
+}
 
 $("#product_name").change(function(){$(this).removeClass('is-invalid')});
   $("#letter_img").change(function(){$(this).removeClass('is-invalid')});
@@ -202,26 +240,8 @@ $("#product_name").change(function(){$(this).removeClass('is-invalid')});
 $('form').submit(function(event) {
     event.preventDefault();
     var i=0;
-    // 'letter_img' => 'required|image|mimes:jpeg,png,jpg,pdf',
-    //                         'product_image' => 'required|image|mimes:jpeg,png,jpg,pdf',
-    //                         'product_name'=>'required',
-    //                         'booking_date'=>'required',
-    //                         'due_date'=>'required',
-//inputClientName
-//inputdepttName
-    //                         'letter_date'=>'required',
-    //                         'letter_ref_no'=>'required',
-    //                         'advc_amt'=>'required',
-    //                         'total_amt'=>'required',
+
     
-  // $(this).change(function(){$(this).removeClass('is-invalid')});
-
-  // $("[name^=test_method_select]").each(function (i, j) {
-                 
-  //                   $(this).change(function(){$(this).removeClass('is-invalid')});
-                 
-  //                 });
-
   
     if($('#product_name').val()==""){ $('#product_name').addClass('is-invalid'); i=1; }
     if($('#letter_img').val()==""){
@@ -306,4 +326,40 @@ $('form').submit(function(event) {
 
 
 </script>
+
+<script>
+  
+  $("#inputModalTestMethodsName").change(function(){$(this).removeClass('is-invalid')});
+  $('#btn-testMethods-submit').click(function(){
+    var i=0;
+      
+      if($('#inputModalTestMethodsName').val()=="")
+      {
+       
+        $('#inputModalTestMethodsName').addClass('is-invalid');
+        i=1;
+      }
+      
+      if(i==0)
+      {
+        $('#open_testmethod_modal').click();
+        $('.loader').modal('show');
+            var saveData = $.ajax({
+              type: 'POST',
+              url: "home/addtestMethods",
+              data: {"_token": "{{ csrf_token() }}",name:$('#inputModalTestMethodsName').val()},
+              success: function(resultData) {
+                if(resultData=="Error")
+                    location.reload();
+                
+                NewlyAddedMethods+=resultData;
+                ChangeDept();
+                $('.loader').modal('hide');
+                 }
+        });
+        saveData.error(function() { alert("Something went wrong");location.reload(); });
+        $('.loader').modal('hide');
+      }
+  });
+  </script>
 @endsection
