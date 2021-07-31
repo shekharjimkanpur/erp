@@ -27,4 +27,4 @@ Route::post('/home/addtestMethods', 'HomeController@addtestMethods');
 
 Route::get('/addtest', 'add_test@index')->name('addtest');
 Route::post('/submit_test','add_test@add_newtest');
-
+Route::get('/edit_test','edit_test@edit_test');
