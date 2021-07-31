@@ -42,6 +42,18 @@ class add_test extends Controller
         return $client; 
     }
 
+    public function edit_test(Request $request)
+    {
+        $test_details=$this->test_details($request->input('id'));
+        return view("add_test", ["method"=>$method,'dept'=>$test_dept,'client'=>$client]);
+    }
+
+    public function test_details($id)
+    {
+        $client=DB::SELECT('SELECT * FROM `erp_client` where id=$id');
+        return $client;
+    }
+
     public function add_newtest(Request $request)
     {
        
