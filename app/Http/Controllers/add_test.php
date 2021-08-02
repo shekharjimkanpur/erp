@@ -49,11 +49,22 @@ class add_test extends Controller
         $method=$this->test_method();
         $test_dept=$this->test_dept();
         $client=$this->test_client();
+        
         $test_det=json_encode($test_details,true);
-        // print_r()
+        
         $test_det=json_decode($test_det,true);
+        
+        $test_params=array();
+        for($i=0;$i<sizeof($test_det);$i++)
+        {
+        $test_param=$this->test_params($test_det[$i]['test_method_id']);
+        array_push($test_params,$test_param);
+        }
+
+        // print_r()
         $dept_names='';
         $departments=array();
+        
         for($i=0;$i<sizeof($test_det);$i++){
         $dept_names=$dept_names.','.$test_det[$i]['dept_name'];
         array_push($departments,$test_det[$i]['dept_name']);
@@ -61,14 +72,22 @@ class add_test extends Controller
 
         // $dept=implode(',',json_decode($test_details[0]['dept_name'],true));
         // return $test_det[0]['dept_name'];
-        return view("edit_test", ["test_details"=>$test_details,"method"=>$method,'dept'=>$test_dept,'client'=>$client,'dept_names'=>$dept_names,'departments'=>$departments]);
+        return view("edit_test", ["test_details"=>$test_details,"method"=>$method,'dept'=>$test_dept,'client'=>$client,'dept_names'=>$dept_names,'departments'=>$departments,'test_params'=>$test_params]);
         // return view("add_test", ["test_details"=>$test_details]);
     }
 
-        
+    public function test_params($id)
+    {
+
+        $result = DB::select("SELECT c.id as test_param_id ,c.name as test_param_name,c.price as test_param_price FROM `erp_test_method` a inner join test_params c on a.id=c.test_method_id where a.id=:test_method_id", array(
+            'test_method_id' => $id,
+        ));
+        return $result;
+    
+    }
     public function test_details($id)
     {
-        $test_details=DB::SELECT('SELECT a.id as product_id,a.client_id,a.status,a.product_name,a.product_img_url,a.booking_date,a.due_date,a.letter_ref_no,a.letter_date,a.letter_img_url,a.total_amt,a.advc_amount,b.name as client_name,c.test_id,c.dept_id,c.test_method_id,c.test_param_ids,d.name as dept_name FROM `erp_test_product` a inner join `erp_client` b on a.client_id=b.id inner join test_dept_util c on c.test_id=a.id inner join erp_department d on d.id=c.dept_id where a.id="'.$id.'"');
+        $test_details=DB::SELECT('SELECT a.id as product_id,a.client_id,a.status,a.product_name,a.product_img_url,a.booking_date,a.due_date,a.letter_ref_no,a.letter_date,a.letter_img_url,a.total_amt,a.advc_amount,b.name as client_name,c.test_id,c.dept_id,c.test_method_id,GROUP_CONCAT(c.test_param_id) as test_param_id,d.name as dept_name FROM `erp_test_product` a inner join `erp_client` b on a.client_id=b.id inner join test_dept_util c on c.test_id=a.id inner join erp_department d on d.id=c.dept_id where  a.id='.$id.' GROUP by test_method_id ');
         return $test_details;
     }
 
