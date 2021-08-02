@@ -45,13 +45,31 @@ class add_test extends Controller
     public function edit_test(Request $request)
     {
         $test_details=$this->test_details($request->input('id'));
-        return view("add_test", ["method"=>$method,'dept'=>$test_dept,'client'=>$client]);
+        // print_r($test_details);
+        $method=$this->test_method();
+        $test_dept=$this->test_dept();
+        $client=$this->test_client();
+        $test_det=json_encode($test_details,true);
+        // print_r()
+        $test_det=json_decode($test_det,true);
+        $dept_names='';
+        $departments=array();
+        for($i=0;$i<sizeof($test_det);$i++){
+        $dept_names=$dept_names.','.$test_det[$i]['dept_name'];
+        array_push($departments,$test_det[$i]['dept_name']);
+        }
+
+        // $dept=implode(',',json_decode($test_details[0]['dept_name'],true));
+        // return $test_det[0]['dept_name'];
+        return view("edit_test", ["test_details"=>$test_details,"method"=>$method,'dept'=>$test_dept,'client'=>$client,'dept_names'=>$dept_names,'departments'=>$departments]);
+        // return view("add_test", ["test_details"=>$test_details]);
     }
 
+        
     public function test_details($id)
     {
-        $client=DB::SELECT('SELECT * FROM `erp_client` where id=$id');
-        return $client;
+        $test_details=DB::SELECT('SELECT a.id as product_id,a.client_id,a.status,a.product_name,a.product_img_url,a.booking_date,a.due_date,a.letter_ref_no,a.letter_date,a.letter_img_url,a.total_amt,a.advc_amount,b.name as client_name,c.test_id,c.dept_id,c.test_method_id,c.test_param_ids,d.name as dept_name FROM `erp_test_product` a inner join `erp_client` b on a.client_id=b.id inner join test_dept_util c on c.test_id=a.id inner join erp_department d on d.id=c.dept_id where a.id="'.$id.'"');
+        return $test_details;
     }
 
     public function add_newtest(Request $request)
@@ -141,9 +159,7 @@ class add_test extends Controller
               }
               $query=rtrim($query,',');
               $results = DB::insert( DB::raw($query));
-
-            return "Successfully added!";
-     
+            return "Successfully added!";     
         }
             else
             return "Error! Please try again.";
