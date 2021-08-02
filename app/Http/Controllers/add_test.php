@@ -159,5 +159,24 @@ class add_test extends Controller
         }
         return $randomString;
     }
+
+    public function getTestParams(Request $request)
+    {
+    $test =  $request->input('test');
+
+        if($test!="")
+        {
+            
+                $result = DB::select("SELECT c.id as test_param_id,c.name as test_param_name,c.price as test_param_price FROM `erp_test_method` a inner join test_params c on a.id=c.test_method_id where a.id=:test_method_id", array(
+                    'test_method_id' => $test,
+                ));
+                return $result;
+            
+        }
+        else
+        {
+            return "Error";
+        }
+    }
 }
 

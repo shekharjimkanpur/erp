@@ -36,8 +36,10 @@ $(document).ready( function () {
                     </div>
                     <div class='col-lg-8 col-md-6'>
                     <a type="button" id='add_test' href='{{route("addtest")}}' class='btn btn-md btn-primary'>Add New Test</a>
-
                     </div>
+
+                    
+
                     </div> 
                     <br>
                     <br>
@@ -179,6 +181,8 @@ $(document).ready( function () {
       </div>
     </div>
   </div>
+
+ 
 <script>
     
 $(function () {
@@ -294,4 +298,6 @@ function GetDynamicTextBox(value) {
       }
   });
     </script>
+
+   
 @endsection
