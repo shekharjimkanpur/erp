@@ -30,4 +30,4 @@ Route::get('/addtest/getTestParams', 'add_test@getTestParams');
 
 Route::get('/addtest', 'add_test@index')->name('addtest');
 Route::post('/submit_test','add_test@add_newtest');
-Route::get('/edit_test','edit_test@edit_test');
+Route::get('/edit_test','add_test@edit_test');

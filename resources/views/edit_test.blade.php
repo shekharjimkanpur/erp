@@ -8,7 +8,7 @@
   }
 </style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css"><div class="container">
-  <h2>Add Test</h2>
+  <h2>Edit Test</h2>
   <!-- id	client_id	product_name	product_img_url	booking_date	due_date	letter_ref_no
   	letter_date	letter_img_url	total_amt	advc_amount -->
 
@@ -24,7 +24,7 @@
         <select class="form-control" name='inputClientName' id="inputClientName">
           <option value="">Select Client</option>
           @foreach ($client as  $c)
-          <option value="{{$c->id}}"> {{$c->name}} </option>
+          <option value="{{$c->id}}" @if($test_details[0]->client_name==$c->name) {{ 'selected' }}  @endif > {{$c->name}} </option>
           @endforeach
         </select>
         </div>
@@ -37,15 +37,13 @@
 
     <div class="form-group">
       <label for="inputProductName">Product Name:</label>
-      <input type="text" class="form-control" id="product_name" name='product_name' placeholder="Enter product name">
+      <input type="text" class="form-control" id="product_name" value='{{$test_details[0]->product_name}}' name='product_name' placeholder="Enter product name">
     </div>
-
     </div>
 <div class='col-md-6'>
-
     <div class="form-group">
       <label for="formFileLg" class="form-label">Upload Product Image:</label>
-      <input class="form-control form-control-md"  id="product_image" name='product_image' type="file" />
+      <input class="form-control form-control-md"  value='{{$test_details[0]->product_img_url}}' id="product_image" name='product_image' type="file" />
     </div>
 
     </div>
@@ -57,7 +55,7 @@
     <div class="form-group">
 <label>Booking Date: </label>
     <div class="input-group date" data-date-format="mm-dd-yyyy">
-      <input class="form-control" id='booking_date' name='booking_date' type="date"  />
+      <input class="form-control" id='booking_date'  value='{{$test_details[0]->booking_date}}' name='booking_date' type="date"  />
     </div>
     </div>
     </div>
@@ -67,7 +65,7 @@
 <div class="form-group"> 
 <label>Due Date: </label>
     <div  class="input-group date" data-date-format="mm-dd-yyyy">
-      <input class="form-control" id='due_date' name='due_date' type="date"  />
+      <input class="form-control" id='due_date'  value='{{$test_details[0]->due_date}}' name='due_date' type="date"  />
     </div>
 </div>
 </div>
@@ -79,7 +77,7 @@
     <div class="form-group"> 
 <label>Letter Reference Number: </label>
     <div  class="input-group date" data-date-format="mm-dd-yyyy">
-      <input class="form-control" id='letter_ref_no' name='letter_ref_no' type="text"  />
+      <input class="form-control" id='letter_ref_no' name='letter_ref_no'  value='{{$test_details[0]->letter_ref_no}}' type="text"  />
     </div>
     </div>
     </div>
@@ -88,7 +86,7 @@
 <div class="form-group"> 
 <label>Letter Date: </label>
     <div  class="input-group date" data-date-format="mm-dd-yyyy">
-      <input class="form-control" id='letter_date' name='letter_date' type="date"  />
+      <input class="form-control" id='letter_date' name='letter_date' value='{{$test_details[0]->letter_date}}' type="date"  />
     </div>
 </div>
 </div>
@@ -98,7 +96,7 @@
 <div class='col-md-12'>
 <div class="form-group">
       <label for="formFileLg" class="form-label">Upload Letter Image:</label>
-      <input class="form-control form-control-md" id="letter_img" name='letter_img' type="file" />
+      <input class="form-control form-control-md" id="letter_img" name='letter_img_url' value='{{$test_details[0]->letter_img_url}}' type="file" />
       </div>
       </div>
       
@@ -109,7 +107,7 @@
 
 <div class="form-group">
       <label for="formFileLg" class="form-label">Total Amount:</label>
-      <input class="form-control form-control-md" id="total_amt" name='total_amt' type="number" />
+      <input class="form-control form-control-md" id="total_amt" name='total_amt' value='{{$test_details[0]->total_amt}}' type="number" />
 </div>
 
 </div>
@@ -117,7 +115,7 @@
 <div class='col-md-6'>
 <div class="form-group">
       <label for="formFileLg" class="form-label">Advance Amount: </label>
-      <input class="form-control form-control-md" id="advc_amt" name='advc_amt' type="number" />
+      <input class="form-control form-control-md" id="advc_amt" name='advc_amt' value='{{$test_details[0]->advc_amount}}' type="number" />
 </div>
 </div>
 </div>
@@ -130,9 +128,9 @@
         <select class="form-control selectpicker" style='border:1px solid grey;' name='inputdepttName[]'  id="inputdepttName" multiple>
           <option  disabled>Select Departments</option>
           @foreach ($dept as  $d)
-          <option value="{{$d->id}},{{$d->name}}"> {{$d->name}} </option>
-          @endforeach
-          
+          <option value="{{$d->id}},{{$d->name}}" @if(strpos($dept_names,$d->name)) {{ 'selected' }} @endif > {{$d->name}} </option>
+          @endforeach          
+
           <!-- <option value="2,Testing Dept 2">Testing Dept 2</option>
           <option value="3,Testing Dept 3">Testing Dept 3</option>
           <option value="4,Testing Dept 4">Testing Dept 4</option> -->
@@ -147,7 +145,15 @@
       </div>
       </div>
 <div id='test_method' class='col-md-12'>
-
+  @foreach($departments as $department)
+<div class='row' style='padding-bottom:10px;'>
+<div class='col-md-2'>{{ $department }} :</div>
+<div class='col-md-3'>
+  <select class='form-control test_method_select' name='test_method_select[]' onchange='change_func(this);'  >
+  <option value=''>Select Test Method</option>"+abc+"</select>
+</div>
+</div>
+@endforeach
 </div>
       </div>
     <button type="submit" class="btn btn-primary">Submit</button>
