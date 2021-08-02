@@ -13,7 +13,7 @@
   	letter_date	letter_img_url	total_amt	advc_amount -->
 
   <br>
-  <form method="POST" action="#">
+  <form method="POST" action="#" id="mainForm">
   <!--  -->
   {{ csrf_field() }}
   <div class='row'>
@@ -121,7 +121,7 @@
 </div>
 
 <div class='row'>
-      <div class='col-md-9'>
+      <div class='col-md-6'>
     <label>Select Departments:</label>
     <div class="form-row">
       <div class="form-group col-md-12">
@@ -141,23 +141,53 @@
       <div class='col-md-3'>
       <div class="form-group">
             <br/>
-          <button type="button" class='btn btn-md btn-success' id="open_testmethod_modal" data-toggle="modal" data-target="#testMethodModal">Add New Test Method</button>
+            <button type="button " class='btn btn-md btn-warning' style="width:100%" id="open_testmethod_modal" data-toggle="modal" data-target="#testMethodModal">Add New Test Method</button>
+      </div>
+      </div>
+      <div class='col-md-3'>
+      <div class="form-group">
+            <br/>
+          <button type="button" class='btn btn-md btn-success' style="width:100%" id="open_testmethod_params_modal" data-toggle="modal" data-target="#testMethodParamsModal">Add New Test Parameter</button>
       </div>
       </div>
 <div id='test_method' class='col-md-12'>
-  @foreach($departments as $department)
+<?php
+ $i=0;
+ ?>
+
+@foreach($departments as $department)
 <div class='row' style='padding-bottom:10px;'>
 <div class='col-md-2'>{{ $department }} :</div>
 <div class='col-md-3'>
   <select class='form-control test_method_select' name='test_method_select[]' onchange='change_func(this);'  >
-  <option value=''>Select Test Method</option>"+abc+"</select>
+  <option value=''>Select Test Method</option>
+
+  @foreach ($method as  $c)
+            <option value="{{$c->id}}" @if($test_details[$i]->test_method_id==$c->id ) {{ 'selected' }} @endif > {{$c->test_method}} </option>
+            @endforeach
+           
+</select>
 </div>
-</div>
+<div class='col-md-3'>
+  <select class='form-control test_method_param_select selectpicker' onchange='change_func_params(this);' title='Select Test Parameter' name='test_method_params_select[]'  multiple>
+<?php 
+$params=$test_params[$i];
+foreach($params as $param)
+{
+?>
+<option value=" {{ $test_details[$i]->dept_id }},{{ $test_details[$i]->test_method_id }},{{ $param->test_param_id }} " @foreach(explode(',',$test_details[$i]->test_param_id) as $param_id )  @if($param_id == $param->test_param_id ) {{ 'selected' }} @endif @endforeach > {{ $param->test_param_name }}/ {{ $param->test_param_price }} </option>
+<?php
+}
+?>
+
+{{ $i++ }}
+</select>
+</div></div>
 @endforeach
 </div>
-      </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
-  </form>
+      </div>  
+        <button type="button" id="mainFormSubmit" class="btn btn-primary">Submit</button>
+ </form>
 </div>
 
 <div class="modal fade" id="testMethodModal" tabindex="-1" role="dialog" aria-hidden="true">
@@ -186,6 +216,42 @@
       </div>
     </div>
   </div>
+  
+  <div class="modal fade" id="testMethodParamsModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add New Test Parameter</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+
+          <div class="form-group">
+            <select class="form-control" name='inputTestParamTest' id="inputTestParamTest">
+            <option value="">Select Test Method</option>
+         
+          </select>
+            <br>
+            <label >Test Parameter Name</label>
+              <input type="text" class="form-control" id="inputModalTestMethodsParamsName"  placeholder="Enter Test Parameter Name">
+            </div>
+            <label >Test Parameter Price</label>
+              <input type="number" class="form-control" id="inputModalTestMethodsParamsPrice"  placeholder="Enter Test Parameter Price">
+            </div>
+
+            <button type="button" id="btn-testMethodsParams-submit" class="btn btn-primary">Submit</button>
+          </form>
+          
+
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
 <script>
 
   var NewlyAddedMethods="";
@@ -210,15 +276,21 @@ function ChangeDept()
 {
   a=$("#inputdepttName").val();
       dropotp='';
+      if(a!=null)
+      {
       a.forEach(function(b){
         
         c=b.split(',');
         var abc=generate_test_method(c[0]);
 
-      dropotp+="<div class='row' style='padding-bottom:10px;'><div class='col-md-2'>"+c[1]+":</div><div class='col-md-3'><select class='form-control test_method_select' name='test_method_select[]' onchange='change_func(this);'  ><option value=''>Select Test Method</option>"+abc+"</select></div></div>";
+        dropotp+="<div class='row' style='padding-bottom:10px;'><div class='col-md-2'>"+c[1]+":</div><div class='col-md-3'><select class='form-control test_method_select' name='test_method_select[]' onchange='change_func(this);'  ><option value=''>Select Test Method</option>"+abc+"</select></div><div class='col-md-3'><select class='form-control test_method_param_select selectpicker' onchange='change_func_params(this);' title='Select Test Parameter' name='test_method_params_select[]'  multiple></select></div></div>";
 
       });
+            
+    }
       $('#test_method').html(dropotp);
+      $(' .selectpicker').selectpicker('refresh');
+      
 }
 
 $("#product_name").change(function(){$(this).removeClass('is-invalid')});
@@ -234,18 +306,56 @@ $("#product_name").change(function(){$(this).removeClass('is-invalid')});
   $("#total_amt").change(function(){$(this).removeClass('is-invalid')});
 
   $("#inputClientName").change(function(){$(this).removeClass('is-invalid')});
-  $("#inputdepttName").change(function(){$(this).removeClass('is-invalid')}); 
+  $("#inputdepttName").change(function(){$(this).parent().removeClass('is-invalid')}); 
   
-   function change_func(data)
+  function change_func_params(data)
+{
+  if($(data).val()!=''){
+    $(data).parent().removeClass('is-invalid');
+  }
+} 
+function change_func(data)
 {
   if($(data).val()!=''){
     $(data).removeClass('is-invalid');
+    $('.loader').modal('show');
+          var ids=$(data).val().split(',');
+          var saveData = $.ajax({
+                type: 'GET',
+                url: "addtest/getTestParams",
+                data: {test:ids[1]},
+                success: function(resultData) {
+                  if(resultData=="Error")
+                    location.reload();
+                  var options="";
+                    if($.trim(resultData))
+                    {
+                      debugger;
+                    
+
+                      // var html="<h5>Department List</h5><br>";
+                      
+                      for(var arr of resultData)
+                      {
+                          
+                          
+                          options=options+"<option value='"+ids[0]+","+ids[1]+","+arr['test_param_id']+"'>"+arr['test_param_name']+" / ₹"+arr['test_param_price']+" </option>"
+                      }
+                   
+                    }
+                    
+                    $(data).parents().eq(1).find('.test_method_param_select .selectpicker').html(options);
+                    $('.selectpicker').selectpicker('refresh')
+                    $('.loader').modal('hide');
+                  }
+          });
+          saveData.error(function() { swal("Something went wrong"); $('.loader').modal('hide');  });
+          $('.loader').modal('hide');
   }
 }
 
-$('form').submit(function(event) {
-    event.preventDefault();
-    var i=0;
+$('#mainFormSubmit').click(function() {
+      var i=0;
 
     
   
@@ -278,11 +388,18 @@ $('form').submit(function(event) {
     if($('#letter_ref_no').val()==""){ $('#letter_ref_no').addClass('is-invalid'); i=1; }
     if($('#total_amt').val()==""){ $('#total_amt').addClass('is-invalid'); i=1; }
     if($('#inputClientName').val()==""){ $('#inputClientName').addClass('is-invalid'); i=1; }
-    if($('#inputdepttName').val()==""){ $('#inputdepttName').addClass('is-invalid'); i=1; }
-    $("[name^=test_method_select]").each(function (i, j) {
+    if($('#inputdepttName').val()==null){ $('#inputdepttName').parent().addClass('is-invalid'); i=1; }
+    $("[name^=test_method_select]").each(function () {
                   if($(this).val()=="")
                   {
                     $(this).addClass('is-invalid');
+                    i=1;
+                  }
+                  });
+                  $("[name^=test_method_params_select]").each(function () {
+                  if($(this).val()==null)
+                  {
+                    $(this).parent().addClass('is-invalid');
                     i=1;
                   }
                   });
@@ -293,7 +410,7 @@ $('form').submit(function(event) {
     {
       
       $('.loader').modal('show');
-    var formData = new FormData(this);
+      var formData = new FormData($("#mainForm"));
     $.ajax({
         url: 'submit_test',
         type: 'POST',              
@@ -359,6 +476,8 @@ $('form').submit(function(event) {
                     location.reload();
                 
                 NewlyAddedMethods+=resultData;
+                $("#inputTestParamTest").append(resultData.replaceAll('replaceit,',""));
+
                 ChangeDept();
                 $('.loader').modal('hide');
                  }
@@ -368,4 +487,47 @@ $('form').submit(function(event) {
       }
   });
   </script>
+   <script>
+    $("#inputTestParamTest").change(function(){$(this).removeClass('is-invalid')});
+  $("#inputModalTestMethodsParamsName").change(function(){$(this).removeClass('is-invalid')});
+  $("#inputModalTestMethodsParamsPrice").change(function(){$(this).removeClass('is-invalid')});
+    $('#btn-testMethodsParams-submit').click(function(){
+      debugger;
+      var j=0;
+      if($('#inputTestParamTest').val()=="")
+      {
+        j=1;
+        $('#inputTestParamTest').addClass('is-invalid');
+      }
+      if($('#inputModalTestMethodsParamsName').val()=="")
+      {
+        j=1;
+        $('#inputModalTestMethodsParamsName').addClass('is-invalid');
+      }
+      if($('#inputModalTestMethodsParamsPrice').val()=="")
+      {
+        j=1;
+        $('#inputModalTestMethodsParamsPrice').addClass('is-invalid');
+      }
+      if(j==0)
+      {
+        $('#open_testmethod_params_modal').click();
+        $('.loader').modal('show');
+            var saveData = $.ajax({
+              type: 'POST',
+              url: "home/addtestMethodsParams",
+              data: {"_token": "{{ csrf_token() }}",method:$('#inputTestParamTest').val(),name:$('#inputModalTestMethodsParamsName').val(),price:$('#inputModalTestMethodsParamsPrice').val()},
+              success: function(resultData) {
+                if(resultData=="Error")
+                    location.reload();
+                
+                $('.loader').modal('hide');
+                 }
+        });
+        saveData.error(function() { alert("Something went wrong");location.reload(); });
+        $('.loader').modal('hide');
+      }
+    });
+  </script>
+
 @endsection
