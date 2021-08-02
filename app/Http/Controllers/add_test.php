@@ -131,13 +131,14 @@ class add_test extends Controller
         if($request)       
         {
             $id = DB::getPdo()->lastInsertId();
-            $query='insert into test_dept_util (test_id,dept_id,test_method_id) values ';    
-            for ($i = 0; $i < count($request->input('test_method_select')); $i++) {
+            $query='insert into test_dept_util (test_id,dept_id,test_method_id,test_param_id) values ';    
+            for ($i = 0; $i < count($request->input('test_method_params_select')); $i++) {
 
-                $arr= explode(',',$request->input('test_method_select')[$i]);
+                $arr= explode(',',$request->input('test_method_params_select')[$i]);
                 $dept=$arr[0];
                 $test_method=$arr[1];
-                $query=$query.'('.$id.','.$dept.','.$test_method.'),';
+                $test_param=$arr[2];
+                $query=$query.'('.$id.','.$dept.','.$test_method.','.$test_param.'),';
               }
               $query=rtrim($query,',');
               $results = DB::insert( DB::raw($query));

@@ -119,14 +119,13 @@ class HomeController extends Controller
 
         if($method!="" && $name!="" && $price!="")
         {
-            $results = DB::select( DB::raw("insert into erp_test_method(test_method_id,name,price) values(:test_method_id,:name,:price)"), array(
+            $results = DB::select( DB::raw("insert into test_params(test_method_id,name,price) values(:test_method_id,:name,:price)"), array(
                 'test_method_id' => $method,
                 'name' => $name,
                 'price' => $price
             ));
             if($request)
-                { 
-                   
+                {    
                 return "Done";
                 }
             else

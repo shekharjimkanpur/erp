@@ -161,8 +161,8 @@ $(document).ready( function () {
             </div>
 
             <div class="form-group">
-              <label >Department Email</label>
-              <input type="email" class="form-control" id="inputModalDeptEmail"  placeholder="Enter Email">
+              <label >Department UserId</label>
+              <input type="email" class="form-control" id="inputModalDeptEmail"  placeholder="Enter User ID">
               
             </div>
             <div class="form-group">

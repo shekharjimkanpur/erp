@@ -24,6 +24,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::post('/home/addclient', 'HomeController@addClient');
 Route::post('/home/adddept', 'HomeController@addDept');
 Route::post('/home/addtestMethods', 'HomeController@addtestMethods');
+Route::post('/home/addtestMethodsParams', 'HomeController@addtestMethodsParams');
 Route::get('/home/getDepts', 'HomeController@getDepts');
 Route::get('/addtest/getTestParams', 'add_test@getTestParams');
 

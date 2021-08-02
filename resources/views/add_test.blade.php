@@ -13,7 +13,7 @@
   	letter_date	letter_img_url	total_amt	advc_amount -->
 
   <br>
-  <form method="POST" action="#" id="mainForm">
+  <form id="mainForm">
   <!--  -->
   {{ csrf_field() }}
   <div class='row'>
@@ -33,7 +33,7 @@
 </div>
 
     <div class='row'>
-<div class='col-md-6'>
+<div class='col-md-5'>
 
     <div class="form-group">
       <label for="inputProductName">Product Name:</label>
@@ -41,14 +41,19 @@
     </div>
 
     </div>
-<div class='col-md-6'>
+<div class='col-md-5'>
 
     <div class="form-group">
       <label for="formFileLg" class="form-label">Upload Product Image:</label>
-      <input class="form-control form-control-md"  id="product_image" name='product_image' type="file" />
+      <input class="form-control form-control-md"  id="product_image" name='product_image' type="file" onchange="if(this.files[0]!=null){document.getElementById('previewProduct').src = window.URL.createObjectURL(this.files[0])} else{ $('#previewProduct').attr('src', '') }" />
+      
     </div>
+    </div>
+    <div class='col-md-2'>
+    <img id="previewProduct" src="#" alt="" with="100" height="100">
 
     </div>
+
     </div>
 
     <div class='row'>
@@ -95,21 +100,26 @@
     </div>
 
     <div class='row'>
-<div class='col-md-12'>
+<div class='col-md-10'>
 <div class="form-group">
       <label for="formFileLg" class="form-label">Upload Letter Image:</label>
-      <input class="form-control form-control-md" id="letter_img" name='letter_img' type="file" />
+      <input class="form-control form-control-md" id="letter_img" name='letter_img' type="file" onchange="if(this.files[0]!=null){document.getElementById('previewLetter').src = window.URL.createObjectURL(this.files[0])} else { $('#previewLetter').attr('src', '') }" />
       </div>
       </div>
+      <div class='col-md-2'>
+    <img id="previewLetter" src="#" alt="" with="100" height="100">
+
+    </div>
       
 </div>
+
     
       <div class='row'>  
 <div class='col-md-6'>
 
 <div class="form-group">
       <label for="formFileLg" class="form-label">Total Amount:</label>
-      <input class="form-control form-control-md" id="total_amt" name='total_amt' type="number" />
+      <input class="form-control form-control-md" id="total_amt" name='total_amt' type="number" readonly="readonly"/>
 </div>
 
 </div>
@@ -143,7 +153,7 @@
       <div class='col-md-3'>
       <div class="form-group">
             <br/>
-          <button type="button " class='btn btn-md btn-warning' style="width:100%" id="open_testmethod_modal" data-toggle="modal" data-target="#testMethodModal">Add New Test Method</button>
+          <button type="button" class='btn btn-md btn-warning' style="width:100%" id="open_testmethod_modal" data-toggle="modal" data-target="#testMethodModal">Add New Test Standard</button>
       </div>
       </div>
       <div class='col-md-3'>
@@ -164,7 +174,7 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Add New Test Methods</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Add New Test Standard</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -173,8 +183,8 @@
           <form>
 
           <div class="form-group">
-            <label >Test Method Name</label>
-              <input type="text" class="form-control" id="inputModalTestMethodsName"  placeholder="Enter New Test Method">
+            <label >Test Standard Name</label>
+              <input type="text" class="form-control" id="inputModalTestMethodsName"  placeholder="Enter New Test Standard">
             </div>
 
             <button type="button" id="btn-testMethods-submit" class="btn btn-primary">Submit</button>
@@ -245,6 +255,7 @@ $('#inputdepttName').change(function(){
 
 function ChangeDept()
 {
+  $('#total_amt').val("0");
   a=$("#inputdepttName").val();
       dropotp='';
       if(a!=null)
@@ -254,7 +265,7 @@ function ChangeDept()
             c=b.split(',');
             var abc=generate_test_method(c[0]);
 
-          dropotp+="<div class='row' style='padding-bottom:10px;'><div class='col-md-2'>"+c[1]+":</div><div class='col-md-3'><select class='form-control test_method_select' name='test_method_select[]' onchange='change_func(this);'  ><option value=''>Select Test Method</option>"+abc+"</select></div><div class='col-md-3'><select class='form-control test_method_param_select selectpicker' onchange='change_func_params(this);' title='Select Test Parameter' name='test_method_params_select[]'  multiple></select></div></div>";
+          dropotp+="<div class='row' style='padding-bottom:10px;'><div class='col-md-2'>"+c[1]+":</div><div class='col-md-3'><select class='form-control test_method_select' name='test_method_select[]' onchange='change_func(this);'  ><option value=''>Select Test Standard</option>"+abc+"</select></div><div class='col-md-3'><select class='form-control test_method_param_select selectpicker' onchange='change_func_params(this);' title='Select Test Parameter' name='test_method_params_select[]'  multiple></select></div></div>";
 
           });
           
@@ -279,11 +290,38 @@ $("#product_name").change(function(){$(this).removeClass('is-invalid')});
   $("#inputClientName").change(function(){$(this).removeClass('is-invalid')});
   $("#inputdepttName").change(function(){$(this).parent().removeClass('is-invalid')}); 
   
+  function check_total_amt()
+  {
+   
+    var total_amt=0;
+    $("[name^=test_method_params_select]").each(function () {
+                  if($(this).val()!=null)
+                  {
+                    var option_all = $(this).find("option:selected").map(function () {
+                      return $(this).text();
+                     }).get().join(',');
+                    var arrs=option_all.split(',')
+                    for(var arr of arrs)
+                      {
+                        var amt = parseFloat(arr.split("₹").pop());
+                        total_amt=total_amt+amt; 
+                      }
+                      
+                   
+                  }
+                  });
+   $('#total_amt').removeClass('is-invalid')
+   $('#total_amt').val(total_amt);
+  }
+
+
+
   function change_func_params(data)
 {
   if($(data).val()!=''){
     $(data).parent().removeClass('is-invalid');
   }
+  check_total_amt();
 }
 
    function change_func(data)
@@ -302,7 +340,7 @@ $("#product_name").change(function(){$(this).removeClass('is-invalid')});
                   var options="";
                     if($.trim(resultData))
                     {
-                      debugger;
+                      
                     
 
                       // var html="<h5>Department List</h5><br>";
@@ -311,7 +349,7 @@ $("#product_name").change(function(){$(this).removeClass('is-invalid')});
                       {
                           
                           
-                          options=options+"<option value='"+ids[0]+","+ids[1]+","+arr['test_param_id']+"'>"+arr['test_param_name']+" / ₹"+arr['test_param_price']+" </option>"
+                          options=options+"<option value='"+ids[0]+","+ids[1]+","+arr['test_param_id']+"'>"+arr['test_param_name']+" / ₹"+arr['test_param_price']+"</option>"
                       }
                    
                     }
@@ -338,7 +376,7 @@ $('#mainFormSubmit').click(function() {
         else{
           var ext = $('#letter_img').val().split('.').pop().toLowerCase();
                     if($.inArray(ext, ['pdf','png','jpg','jpeg']) == -1) {
-                        alert('Invalid file in letter image!');
+                        swal('Invalid file in letter image!');
                         $('#letter_img').addClass('is-invalid'); i=1;
                     }
         }
@@ -349,7 +387,7 @@ $('#mainFormSubmit').click(function() {
          else{
           var ext = $('#product_image').val().split('.').pop().toLowerCase();
                     if($.inArray(ext, ['pdf','png','jpg','jpeg']) == -1) {
-                        alert('Invalid file in product image!');
+                      swal('Invalid file in product image!');
                         $('#product_image').addClass('is-invalid'); i=1;
                     }
         }
@@ -358,7 +396,7 @@ $('#mainFormSubmit').click(function() {
     if($('#letter_date').val()==""){ $('#letter_date').addClass('is-invalid'); i=1; }
     if($('#advc_amt').val()==""){ $('#advc_amt').addClass('is-invalid'); i=1; }
     if($('#letter_ref_no').val()==""){ $('#letter_ref_no').addClass('is-invalid'); i=1; }
-    if($('#total_amt').val()==""){ $('#total_amt').addClass('is-invalid'); i=1; }
+    if($('#total_amt').val()=="" || $('#total_amt').val()=="0"){ $('#total_amt').addClass('is-invalid'); i=1; }
     if($('#inputClientName').val()==""){ $('#inputClientName').addClass('is-invalid'); i=1; }
     if($('#inputdepttName').val()==null){ $('#inputdepttName').parent().addClass('is-invalid'); i=1; }
     $("[name^=test_method_select]").each(function () {
@@ -382,7 +420,7 @@ $('#mainFormSubmit').click(function() {
     {
       
       $('.loader').modal('show');
-    var formData = new FormData($("#mainForm"));
+    var formData = new FormData(document.getElementById("mainForm"));
     $.ajax({
         url: 'submit_test',
         type: 'POST',              
@@ -397,11 +435,12 @@ $('#mainFormSubmit').click(function() {
             
             
         $('.loader').modal('hide');
-        alert(result);
+        swal(result);
             location.reload();
         },
         error: function(data)
         {
+          swal("Something went wrong! Please refresh and try again.");
             console.log(data);
         }
     });
@@ -450,10 +489,12 @@ $('#mainFormSubmit').click(function() {
                 NewlyAddedMethods+=resultData;
                 $("#inputTestParamTest").append(resultData.replaceAll('replaceit,',""));
                 ChangeDept();
+                swal("Successfully Added!");
+                $('#inputModalTestMethodsName').val("");
                 $('.loader').modal('hide');
                  }
         });
-        saveData.error(function() { alert("Something went wrong");location.reload(); });
+        saveData.error(function() { swal(result);("Something went wrong");location.reload(); });
         $('.loader').modal('hide');
       }
   });
@@ -491,11 +532,15 @@ $('#mainFormSubmit').click(function() {
               success: function(resultData) {
                 if(resultData=="Error")
                     location.reload();
-                
+                ChangeDept();
+                swal("Successfully Added!");
+                $('#inputTestParamTest').val("");
+                $('#inputModalTestMethodsParamsName').val("");
+                $('#inputModalTestMethodsParamsPrice').val("");
                 $('.loader').modal('hide');
                  }
         });
-        saveData.error(function() { alert("Something went wrong");location.reload(); });
+        saveData.error(function() { swal("Something went wrong");location.reload(); });
         $('.loader').modal('hide');
       }
     });
