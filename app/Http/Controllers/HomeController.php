@@ -95,7 +95,7 @@ class HomeController extends Controller
 
         if($name!="")
         {
-            $results = DB::insert( DB::raw("insert into erp_test_method(test_method) values(:name)"), array(
+            $results = DB::select( DB::raw("insert into erp_test_method(test_method) values(:name)"), array(
                 'name' => $name,
             ));
             if($request)
@@ -109,4 +109,63 @@ class HomeController extends Controller
         else
             return "Error";
     }
+
+    public function addtestMethodsParams(Request $request)
+    {
+       
+        $method =  $request->input('method');
+        $name =  $request->input('name');
+        $price =  $request->input('price');
+
+        if($method!="" && $name!="" && $price!="")
+        {
+            $results = DB::select( DB::raw("insert into erp_test_method(test_method_id,name,price) values(:test_method_id,:name,:price)"), array(
+                'test_method_id' => $method,
+                'name' => $name,
+                'price' => $price
+            ));
+            if($request)
+                { 
+                   
+                return "Done";
+                }
+            else
+                return "Error";
+        }
+        else
+            return "Error";
+    }
+    
+   
+    
+    // public function getDepts(Request $request)
+    // {
+       
+
+    //     $test =  $request->input('test');
+
+    //     if($test!="")
+    //     {
+    //         $results = DB::select( DB::raw("SELECT a.id as test_id,b.id as dept_id ,b.name as dept_name,a.test_method_id as test_method_id FROM `test_dept_util` a INNER join erp_department b on a.dept_id=b.id where a.test_id=:name"), array(
+    //             'name' => $test,
+    //         ));
+    //         $json_response = array();
+    //         foreach ( $results as $row ) {
+    //             $row_array = (array) $row;
+    //             $ord_id = $row->test_method_id;
+            
+    //             $orders2 = DB::select( DB::raw("SELECT c.id as test_param_id,c.name as test_param_name,c.price as test_param_price FROM `erp_test_method` a inner join test_params c on a.id=c.test_method_id where a.id=:test_method_id"), array(
+    //                 'test_method_id' => $ord_id,
+    //             ));
+    //             foreach ( $orders2 as $vorder2 ) {
+    //                 $row_array['test_params'][] = $vorder2;
+    //             }
+    //             $json_response[] = $row_array;
+    //         }
+    //         return json_encode($json_response);
+            
+    //     }
+    //     else
+    //         return "Error";
+    // }
 }

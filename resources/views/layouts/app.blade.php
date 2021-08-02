@@ -33,6 +33,9 @@ ob_start();
 <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
 <style>
     .bd-example-modal-lg .modal-dialog{
     display: table;
@@ -106,7 +109,7 @@ ob_start();
         <main class="py-4">
             @yield('content')
         </main>
-        <div class="modal fade bd-example-modal-lg loader" data-backdrop="static" data-keyboard="false" tabindex="-1">
+        <div class="modal fade bd-example-modal-lg loader" data-backdrop="static" data-keyboard="false" tabindex="-1" style="z-index:999">
             <div class="modal-dialog modal-sm">
                 <div class="modal-content" style="width: 48px">
                     <span class="fa fa-spinner fa-spin fa-3x"></span>
