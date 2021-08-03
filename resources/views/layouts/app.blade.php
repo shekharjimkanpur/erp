@@ -52,11 +52,9 @@ ob_start();
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <!-- <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <!--<a class="navbar-brand" href="{{ url('/') }}">-->
-                <!--    {{ config('app.name', 'ERP') }}-->
-                <!--</a>-->
+    
                     <a class="navbar-brand" href="{{ url('/') }}">
                     ERP
                 </a>
@@ -65,14 +63,14 @@ ob_start();
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
+                    
                     <ul class="navbar-nav mr-auto">
 
                     </ul>
 
-                    <!-- Right Side Of Navbar -->
+                    
                     <ul class="navbar-nav ml-auto">
-                        <!-- Authentication Links -->
+                        
                         @guest
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
@@ -104,7 +102,47 @@ ob_start();
                     </ul>
                 </div>
             </div>
-        </nav>
+        </nav> -->
+
+        <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+  <!-- Brand/logo -->
+  <a class="navbar-brand" href="#">ERP</a>
+  
+  <!-- Links -->
+  <ul class="navbar-nav mr-auto">
+  @guest
+  @else
+    <li class="nav-item">
+      <a class="nav-link" href="{{ route('home') }}">Home</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{{ route('addtest') }}">New Test</a>
+    </li>
+    @endguest
+  </ul>
+  <ul class="navbar-nav ml-auto">
+                        
+                        @guest
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                            </li>
+                            @if (Route::has('register'))
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                </li>
+                            @endif
+                        @else
+                        <li class="nav-item">
+                                <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                                {{ __('Logout') }}</a>
+                            </li>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        @csrf
+                                    </form>
+                        @endguest
+                    </ul>
+</nav>
+
         
         <main class="py-4">
             @yield('content')
