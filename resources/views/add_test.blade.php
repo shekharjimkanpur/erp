@@ -50,7 +50,7 @@
     </div>
     </div>
     <div class='col-md-2'>
-    <img id="previewProduct" src="#" alt="" with="100" height="100">
+    <img id="previewProduct" src="#" alt="" width="100" height="100">
 
     </div>
 
@@ -107,7 +107,7 @@
       </div>
       </div>
       <div class='col-md-2'>
-    <img id="previewLetter" src="#" alt="" with="100" height="100">
+    <img id="previewLetter" src="#" alt="" width="100" height="100">
 
     </div>
       
