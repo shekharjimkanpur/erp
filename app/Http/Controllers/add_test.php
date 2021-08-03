@@ -123,13 +123,13 @@ class add_test extends Controller
         $inputdepttName =  $request->input('inputdepttName');
         $letter_img = $request->file('letter_img');
         //you also need to keep file extension as well
-        $name_full = $letter_img->getClientOriginalName().'_letter_'.$this->generateRandomString().'.'.$letter_img->getClientOriginalExtension();
-        $name= $letter_img->getClientOriginalName().'_letter_'.$this->generateRandomString();
+        $name_full = 'letter_'.$product_name.'_'.$this->generateRandomString().'.'.$letter_img->getClientOriginalExtension();
+        //$name= 'letter_'.$this->generateRandomString();
         
         
         // $image = new Image;
         // $path = $letter_img->storeAs(public_path().'/uploads', $name, 'public');  
-        $letter_img->move('uploads',$name);
+        $letter_img->move('uploads',$name_full);
         
         // $image->name = $name;
         // $image->path = '/uploads/'.$path;
@@ -138,10 +138,10 @@ class add_test extends Controller
         //producct image 
         $product_image = $request->file('product_image');
 
-        $name_full = $product_image->getClientOriginalName().'_product_'.$this->generateRandomString().'.'.$product_image->getClientOriginalExtension();
-        $name= $product_image->getClientOriginalName().'_product_'.$this->generateRandomString();
+        $name_full = 'product_'.$product_name.'_'.$this->generateRandomString().'.'.$product_image->getClientOriginalExtension();
+        //$name= 'product_'.$product_name.'_'.$this->generateRandomString();
         // $image = new Image;
-        $product_image->move('uploads',$name);
+        $product_image->move('uploads',$name_full);
         // $path = $product_image->storeAs(public_path().'/uploads', $name, 'public');  
         // $image->name = $name;
         // $image->path = '/uploads/'.$path;
