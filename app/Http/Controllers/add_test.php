@@ -105,7 +105,7 @@ class add_test extends Controller
         $letter_img = $request->file('letter_img');
         //you also need to keep file extension as well
         $name_full = $letter_img->getClientOriginalName().'_letter_'.$this->generateRandomString().'.'.$letter_img->getClientOriginalExtension();
-        $name= $letter_img->getClientOriginalName().'_product_'.$this->generateRandomString();
+        $name= $letter_img->getClientOriginalName().'_letter_'.$this->generateRandomString();
         
         
         // $image = new Image;
