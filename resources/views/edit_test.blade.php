@@ -10,12 +10,13 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css"><div class="container">
   <h2>Edit Test</h2>
   <!-- id	client_id	product_name	product_img_url	booking_date	due_date	letter_ref_no
-  	letter_date	letter_img_url	total_amt	advc_amount -->
+  	letter_date	letter_img	total_amt	advc_amount -->
 
   <br>
   <form id="mainForm">
   <!--  -->
   {{ csrf_field() }}
+  <input type="hidden" name='test_id' value='{{ $test_details[0]->product_id }}' >
   <div class='row'>
     <div class='col-md-12'>
   <label for="inputClientName">Select Client</label>
@@ -100,11 +101,11 @@
     <div class='col-md-10'>
 <div class="form-group">
       <label for="formFileLg" class="form-label">Upload Letter Image:</label>
-      <input class="form-control form-control-md" id="letter_img" name='letter_img_url' value='{{$test_details[0]->letter_img_url}}' type="file" onchange="if(this.files[0]!=null){document.getElementById('previewLetter').src = window.URL.createObjectURL(this.files[0])} else { $('#previewLetter').attr('src', '') }" />
+      <input class="form-control form-control-md" id="letter_img" name='letter_img' value='{{$test_details[0]->letter_img}}' type="file" onchange="if(this.files[0]!=null){document.getElementById('previewLetter').src = window.URL.createObjectURL(this.files[0])} else { $('#previewLetter').attr('src', '') }" />
       </div>
       </div>
       <div class='col-md-2'>
-    <img id="previewLetter" src="{{ 'uploads/'.$test_details[0]->letter_img_url }}" alt="" with="100" height="100">
+    <img id="previewLetter" src="{{ 'uploads/'.$test_details[0]->letter_img }}" alt="" width="100" height="100">
 </div>
       
 </div>
@@ -448,7 +449,7 @@ $('#mainFormSubmit').click(function() {
       $('.loader').modal('show');
       var formData = new FormData(document.getElementById("mainForm"));
     $.ajax({
-        url: 'submit_test',
+        url: 'update_test',
         type: 'POST',              
         data:formData,
         headers: {'X-CSRF-TOKEN': "{{ csrf_token() }}"},
