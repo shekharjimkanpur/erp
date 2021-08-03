@@ -171,7 +171,7 @@
   <option value=''>Select Test Method</option>
 
   @foreach ($method as  $c)
-            <option value="{{$c->id}}" @if($test_details[$i]->test_method_id==$c->id ) {{ 'selected' }} @endif > {{$c->test_method}} </option>
+            <option value=" {{ $test_details[$i]->dept_id }},{{$c->id}}" @if($test_details[$i]->test_method_id==$c->id ) {{ 'selected' }} @endif > {{$c->test_method}} </option>
             @endforeach
            
 </select>
@@ -183,7 +183,7 @@ $params=$test_params[$i];
 foreach($params as $param)
 {
 ?>
-<option value=" {{ $test_details[$i]->dept_id }},{{ $test_details[$i]->test_method_id }},{{ $param->test_param_id }} " @foreach(explode(',',$test_details[$i]->test_param_id) as $param_id )  @if($param_id == $param->test_param_id ) {{ 'selected' }} @endif @endforeach > {{ $param->test_param_name }}/ {{ $param->test_param_price }} </option>
+<option value=" {{ $test_details[$i]->dept_id }},{{ $test_details[$i]->test_method_id }},{{ $param->test_param_id }} " @foreach(explode(',',$test_details[$i]->test_param_id) as $param_id )  @if($param_id == $param->test_param_id ) {{ 'selected' }} @endif @endforeach > {{ $param->test_param_name }}/ ₹{{ $param->test_param_price }} </option>
 <?php
 }
 ?>
@@ -305,8 +305,8 @@ function ChangeDept()
 }
 
 $("#product_name").change(function(){$(this).removeClass('is-invalid')});
-  $("#letter_img").change(function(){$(this).removeClass('is-invalid')});
-  $("#product_image").change(function(){$(this).removeClass('is-invalid')});
+  // $("#letter_img").change(function(){$(this).removeClass('is-invalid')});
+  // $("#product_image").change(function(){$(this).removeClass('is-invalid')});
 
   $("#booking_date").change(function(){$(this).removeClass('is-invalid')});
   $("#due_date").change(function(){$(this).removeClass('is-invalid')});
@@ -334,9 +334,7 @@ $("#product_name").change(function(){$(this).removeClass('is-invalid')});
                       {
                         var amt = parseFloat(arr.split("₹").pop());
                         total_amt=total_amt+amt; 
-                      }
-                      
-                   
+                      }                      
                   }
                   });
    $('#total_amt').removeClass('is-invalid')
@@ -363,11 +361,11 @@ function change_func(data)
                 data: {test:ids[1]},
                 success: function(resultData) {
                   if(resultData=="Error")
-                    location.reload();
+                    // location.reload();
                   var options="";
                     if($.trim(resultData))
                     {
-                      debugger;
+                      // debugger;
                     
 
                       // var html="<h5>Department List</h5><br>";
@@ -397,27 +395,29 @@ $('#mainFormSubmit').click(function() {
     
   
     if($('#product_name').val()==""){ $('#product_name').addClass('is-invalid'); i=1; }
-    if($('#letter_img').val()==""){
-       $('#letter_img').addClass('is-invalid'); i=1;
-        }
-        else{
+    // if($('#letter_img').val()==""){
+    //    $('#letter_img').addClass('is-invalid'); i=1;
+    //     }
+    if(!$('#letter_img').val()==""){
           var ext = $('#letter_img').val().split('.').pop().toLowerCase();
-                    if($.inArray(ext, ['pdf','png','jpg','jpeg']) == -1) {
+                    if($.inArray(ext, ['pdf','png','jpg','jpeg','']) == -1) {
                         swal('Invalid file in letter image!');
                         $('#letter_img').addClass('is-invalid'); i=1;
                     }
-        }
+                  }
+    // if($('#product_image').val()==""){
+    //    $('#product_image').addClass('is-invalid');
+    //     i=1;
+    //      }
     if($('#product_image').val()==""){
-       $('#product_image').addClass('is-invalid');
-        i=1;
-         }
-         else{
           var ext = $('#product_image').val().split('.').pop().toLowerCase();
-                    if($.inArray(ext, ['pdf','png','jpg','jpeg']) == -1) {
+                    if($.inArray(ext, ['pdf','png','jpg','jpeg','']) == -1) {
                         swal('Invalid file in product image!');
                         $('#product_image').addClass('is-invalid'); i=1;
                     }
         }
+
+
     if($('#booking_date').val()==""){ $('#booking_date').addClass('is-invalid'); i=1; }
     if($('#due_date').val()==""){ $('#due_date').addClass('is-invalid'); i=1; }
     if($('#letter_date').val()==""){ $('#letter_date').addClass('is-invalid'); i=1; }

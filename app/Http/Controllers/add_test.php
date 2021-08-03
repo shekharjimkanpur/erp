@@ -220,8 +220,9 @@ public function test_details($id)
 public function update_test(Request $request)
 {
    
-    $request->validate([ 'letter_img' => 'required|image|mimes:jpeg,png,jpg,pdf',
-                        'product_image' => 'required|image|mimes:jpeg,png,jpg,pdf',
+    $request->validate([ 
+                        // 'letter_img' => 'required|image|mimes:jpeg,png,jpg,pdf',
+                        // 'product_image' => 'required|image|mimes:jpeg,png,jpg,pdf',
                         'product_name'=>'required',
                         'booking_date'=>'required',
                         'due_date'=>'required',
@@ -247,12 +248,14 @@ public function update_test(Request $request)
     $advc_amt =  $request->input('advc_amt');
     $total_amt =  $request->input('total_amt');
     $inputdepttName =  $request->input('inputdepttName');
+    $image_check='';
+    if($request->file('letter_img'))
+    {
     $letter_img = $request->file('letter_img');
     //you also need to keep file extension as well
     $name_full = 'letter_'.$product_name.'_'.$this->generateRandomString().'.'.$letter_img->getClientOriginalExtension();
     //$name= 'letter_'.$this->generateRandomString();
-    
-    
+      
     // $image = new Image;
     // $path = $letter_img->storeAs(public_path().'/uploads', $name, 'public');  
     $letter_img->move('uploads',$name_full);
@@ -261,7 +264,13 @@ public function update_test(Request $request)
     // $image->path = '/uploads/'.$path;
     // $image->save();
     $letter_img_url=$name_full;
+    
+    $image_check=",letter_img_url='".$letter_img_url."'";
+    }
     //producct image 
+    if($request->file('product_image'))
+    {
+        
     $product_image = $request->file('product_image');
 
     $name_full = 'product_'.$product_name.'_'.$this->generateRandomString().'.'.$product_image->getClientOriginalExtension();
@@ -272,52 +281,59 @@ public function update_test(Request $request)
     // $image->name = $name;
     // $image->path = '/uploads/'.$path;
     $product_image=$name_full;
+    
+    $image_check=$image_check.",product_img_url='".$product_image."'";
+    }
 
     //$users = DB::insert('select id, name from users');
+// echo "update erp_test_product set (client_id='$inputClientName',
+// product_name='$product_name',product_img_url='$product_image',
+// booking_date='$booking_date',due_date='$due_date',letter_ref_no='$letter_ref_no'
+// ,letter_date='$letter_date',letter_img_url='$letter_img_url',total_amt='$total_amt',advc_amount='$advc_amt')
+//  where id='$test_product_id' 
+// ";
 
+    $results = DB::statement( DB::raw("update erp_test_product set client_id='$inputClientName',
+    product_name='$product_name',
+    booking_date='$booking_date',due_date='$due_date',letter_ref_no='$letter_ref_no'
+    ,letter_date='$letter_date',total_amt='$total_amt',advc_amount='$advc_amt' $image_check
+     where id='$test_product_id' 
+ "));
 
-    $results = DB::statement( DB::raw("update erp_test_product set (client_id=:client_id,
-    product_name=:product_name,product_img_url=:product_img_url,
-    booking_date=:booking_date,due_date=:due_date,letter_ref_no=:letter_ref_no
-    ,letter_date=:letter_date,letter_img_url=:letter_img_url,total_amt=:total_amt,advc_amount=:advc_amount)
-     where id=:test_product_id 
- "), array(
-        'client_id'=>$inputClientName,
-        'product_name'=>$product_name,
-        'product_img_url'=>$product_image,
-        'booking_date'=>$booking_date,
-        'due_date'=>$due_date,
-        'letter_ref_no'=>$letter_ref_no,
-        'letter_date'=>$letter_date,
-        'letter_img_url'=>$letter_img_url,
-        'total_amt'=>$total_amt, 
-        'advc_amount'=>$advc_amt,
-        'test_product_id'=>$test_product_id
-      ));
+      $test_util = DB::select("SELECT * FROM test_dept_util where test_id=:test_method_id", array(
+        'test_method_id' => $test_product_id,
+    ));
 
-      $test_util_id = DB::select("SELECT id FROM test_dept_util where test_id=:test_method_id", array(
+    $number_of_deleted_rows=DB::delete("delete FROM test_dept_util where test_id=:test_method_id", array(
         'test_method_id' => $test_product_id,
     ));
     if($request)       
     {
         $id = $test_product_id;
-        $query='insert into test_dept_util (id, test_id,dept_id,test_method_id,test_param_id) values ';    
+        $query='insert into test_dept_util (test_id,dept_id,test_method_id,test_param_id,is_done) values ';    
         for ($i = 0; $i < count($request->input('test_method_params_select')); $i++) {
-
-
             $arr= explode(',',$request->input('test_method_params_select')[$i]);
             $dept=$arr[0];
             $test_method=$arr[1];
             $test_param=$arr[2];
-            $query=$query.'('.$test_util_id[$i].','.$id.','.$dept.','.$test_method.','.$test_param.'),';
+            $status=0;
+            for ($j = 0; $j < count($test_util); $j++)
+            {
+                if($test_util[$j]->dept_id==$dept && $test_util[$j]->test_method_id==$test_method 
+                && $test_util[$j]->test_param_id==$test_param)
+                {
+                    $status=$test_util[$j]->is_done;
+                }
+
+            } 
+            $query=$query.'('.$id.','.$dept.','.$test_method.','.$test_param.','.$status.'),';
           }
 
           $query=rtrim($query,',');
-          $query=$query.' ON DUPLICATE KEY UPDATE test_id=VALUES(test_id),dept_id=VALUES(dept_id)
-          ,test_method_id=VALUES(test_method_id),test_param_id=VALUES(test_param_id)';
+        //   $query=$query;
 
           $results = DB::insert( DB::raw($query));
-        return "Successfully added!";     
+        return "Successfully updated!";     
     }
         else
         return "Error! Please try again.";
