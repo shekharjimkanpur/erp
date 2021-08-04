@@ -65,7 +65,7 @@ $(document).ready( function () {
     <tbody>
     @foreach ($testing_data as  $tests)
         <tr>
-            <td>SHN/HSN-SAC-{{$tests->id}}</td>
+            <td>{{$tests->test_gen_id}}</td>
             <td>{{$tests->product_name}}</td>
             
             <td>{{ $tests->name }}</td>

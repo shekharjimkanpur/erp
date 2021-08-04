@@ -42,6 +42,17 @@ class add_test extends Controller
         return $client; 
     }
 
+    function getTodayTestSno($booking_date) {
+        $result=DB::SELECT("SELECT count(*) as count FROM `erp_test_product`  where booking_date='$booking_date' group by booking_date");
+        $count=1;
+        if($result)
+        {
+            $count=$count+$result[0]->count;
+        }
+        $sno='D-'.date("d/m/y", strtotime($booking_date)).'-'.$count;
+        return $sno;
+    }
+
     public function add_newtest(Request $request)
     {
        
@@ -65,6 +76,7 @@ class add_test extends Controller
         
         // $product_image =  $request->input('product_image');
         $booking_date =  $request->input('booking_date');
+        $serial_no= $this->getTodayTestSno($booking_date);
         $due_date =  $request->input('due_date');
         $letter_date =  $request->input('letter_date');
         // $letter_img =  $request->input('letter_img');
@@ -102,9 +114,9 @@ class add_test extends Controller
 
 
         $results = DB::insert( DB::raw("insert into erp_test_product(client_id,product_name,product_img_url,
-        booking_date,due_date,letter_ref_no,letter_date,letter_img_url,total_amt,advc_amount) 
+        booking_date,due_date,letter_ref_no,letter_date,letter_img_url,total_amt,advc_amount,test_gen_id) 
         values(:client_id,:product_name,:product_img_url,:booking_date,:due_date,:letter_ref_no,:letter_date,
-        :letter_img_url,:total_amt,:advc_amount)"), array(
+        :letter_img_url,:total_amt,:advc_amount,:test_gen_id)"), array(
             'client_id'=>$inputClientName,
             'product_name'=>$product_name,
             'product_img_url'=>$product_image,
@@ -114,7 +126,8 @@ class add_test extends Controller
             'letter_date'=>$letter_date,
             'letter_img_url'=>$letter_img_url,
             'total_amt'=>$total_amt, 
-            'advc_amount'=>$advc_amt
+            'advc_amount'=>$advc_amt,
+            'test_gen_id'=>$serial_no
           ));
         if($request)       
         {
