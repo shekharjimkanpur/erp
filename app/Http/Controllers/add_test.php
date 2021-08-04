@@ -323,7 +323,7 @@ public function update_test(Request $request)
                 && $test_util[$j]->test_param_id==$test_param)
                 {
                     $status=$test_util[$j]->is_done;
-                }
+                } 
 
             } 
             $query=$query.'('.$id.','.$dept.','.$test_method.','.$test_param.','.$status.'),';
