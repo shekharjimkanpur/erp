@@ -35,3 +35,6 @@ Route::post('/update_test','add_test@update_test');
 Route::get('/edit_test','add_test@edit_test');
 
 Route::get('/dept', 'DepartmentController@index')->name('dept');
+
+Route::post('/dept_login','DepartmentController@login')->name('/dept_login');
+Route::get('/dept_login','DepartmentController@login');
