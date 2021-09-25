@@ -26,9 +26,12 @@ Route::post('/home/adddept', 'HomeController@addDept');
 Route::post('/home/addtestMethods', 'HomeController@addtestMethods');
 Route::post('/home/addtestMethodsParams', 'HomeController@addtestMethodsParams');
 Route::get('/home/getDepts', 'HomeController@getDepts');
+
 Route::get('/addtest/getTestParams', 'add_test@getTestParams');
 
 Route::get('/addtest', 'add_test@index')->name('addtest');
 Route::post('/submit_test','add_test@add_newtest');
 Route::post('/update_test','add_test@update_test');
 Route::get('/edit_test','add_test@edit_test');
+
+Route::get('/dept', 'DepartmentController@index')->name('dept');
