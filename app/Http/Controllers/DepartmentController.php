@@ -38,7 +38,6 @@ class DepartmentController extends Controller
     return $result;
 
     }
-
     public function login(Request $request){
         if ($request->isMethod('post')) {    
         $result=$this->get_dept_login($request->input('id'),$request->input('pass'));
