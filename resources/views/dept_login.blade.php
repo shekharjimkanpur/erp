@@ -282,7 +282,7 @@ input[type=text]:placeholder {
     </div>
 
     <!-- Login Form -->
-    <form method="POST" >
+    <form method="POST"  action="{{ route('/dept_login') }}">
     @csrf 
       <input type="text" id="login" class="fadeIn second" name="id" placeholder="User Id">
       <input type="text" id="password" class="fadeIn third" name="pass" placeholder="Password">
