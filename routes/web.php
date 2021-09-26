@@ -38,3 +38,4 @@ Route::get('/dept', 'DepartmentController@index')->name('dept');
 
 Route::post('/dept_login','DepartmentController@login')->name('/dept_login');
 Route::get('/dept_login','DepartmentController@login');
+Route::get('/show_print','Print_TestController@index');

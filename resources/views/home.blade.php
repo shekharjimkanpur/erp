@@ -75,6 +75,10 @@ $(document).ready( function () {
             <td>@if($tests->total_dept==$tests->total_done) Completed @else Pending @endif</td>
             
             <td>  
+            @if($tests->total_dept==$tests->total_done) 
+            <a type="button" id='print_test' href='/show_print?id={{ $tests->id }}'  class='btn btn-sm btn-primary'>Show Print</a>
+            <!-- <button type="button" class='btn btn-sm btn-primary'>add</button> -->
+             @endif
             <a type="button" id='edit_test' href='/edit_test?id={{ $tests->id }}'  class='btn btn-sm btn-primary'>Edit</a>
             <!-- <button type="button" class='btn btn-sm btn-primary'>add</button> -->
             <button type="button" id='delete_test' class='btn btn-sm btn-danger'>Delete</button>

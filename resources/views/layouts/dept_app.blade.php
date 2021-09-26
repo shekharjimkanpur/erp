@@ -113,7 +113,7 @@ ob_start();
   @guest
   @else
     <li class="nav-item">
-      <a class="nav-link" href="{{ route('home') }}">Home</a>
+      <a class="nav-link" href="{{ route('dept') }}">Home</a>
     </li>
     <li class="nav-item">
       <a class="nav-link" href="{{ route('addtest') }}">New Test</a>
@@ -122,18 +122,16 @@ ob_start();
   </ul>
   <ul class="navbar-nav ml-auto">
                         
-                        @guest
+                        @if(!session()->has('dept_id'))
                         <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                <a class="nav-link" href="{{ route('login') }}">{{ __('Admin Login') }}</a>
                             </li>
+                     
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('/dept_login') }}">{{ __('Department Login') }}</a>
+                                <a class="nav-link " href="{{ route('/dept_login') }}">{{ __('Login') }}</a>
                             </li>
-                            @if (Route::has('register'))
-                                <!-- <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                </li> -->
-                            @endif
+                            <!-- @if (Route::has('register')) -->
+                        @endif
                         @else
                         <li class="nav-item">
                                 <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
