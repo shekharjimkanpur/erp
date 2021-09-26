@@ -361,8 +361,12 @@ function change_func(data)
                 data: {test:ids[1]},
                 success: function(resultData) {
                   if(resultData=="Error")
+                  {
+                    swal("Something went wrong");
                     // location.reload();
-                  var options="";
+                  
+                    }
+                      var options="";
                     if($.trim(resultData))
                     {
                       // debugger;
