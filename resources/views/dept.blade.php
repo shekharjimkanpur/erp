@@ -54,7 +54,7 @@ $(document).ready( function () {
             <td>@if($tests->isdone=='1') Completed @else Pending @endif</td>
             
             <td>  
-            <a type="button" id='edit_test' href='edit_test?id={{ $tests->id }}'  class='btn btn-sm btn-primary'>Add Params</a>
+            <a type="button" id='edit_test' href='dept/addParams?id={{ $tests->test_util_id }}'  class='btn btn-sm btn-primary'>Add Params</a>
             <!-- <button type="button" class='btn btn-sm btn-primary'>add</button> -->
             <!-- <button type="button" id='delete_test' class='btn btn-sm btn-danger'>Delete</button> -->
                      </td>
